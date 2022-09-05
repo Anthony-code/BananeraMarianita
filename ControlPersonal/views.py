@@ -241,13 +241,20 @@ class ActividadUpdateView(LoginRequiredMixin,generic.UpdateView):
 
 
 
+class ListAsistenciaListView(LoginRequiredMixin, generic.ListView):
+    model = Asistencia
+    template_name = "table/table-asistencia.html"
+    context_object_name = 'object'
+    login_url = 'ControlPersonal:login'
+
 class AsistenciaListView(LoginRequiredMixin, generic.ListView):
     model = Asistencia
     template_name = "table/asistencia.html"
     context_object_name = 'object'
     login_url = 'ControlPersonal:login'
 
-
+import datetime
+from datetime import datetime as timedatas
 class RegistroAsistencia(LoginRequiredMixin, generic.CreateView):
     model = Asistencia
     form_class = AsistenciaForm
@@ -255,9 +262,26 @@ class RegistroAsistencia(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("ControlPersonal:lista_cuenta")
 
     def post(self, request, *args, **kwargs):
-        a = request.POST['cedula']
-        empleado = Persona.objects.filter(dni=a).first()
-        asistencia = Asistencia(empleado=empleado)
-        asistencia.save()
-        return HttpResponse()
+        try:
+            timedata = timedatas.now()
+            a = request.POST['cedula']
+            empleado = Persona.objects.filter(dni=a).first()
+            if not empleado:
+                return HttpResponse("Empleado no encontrado !!!!")
+            if timedata.hour > 22:
+                asistencia = Asistencia(empleado=empleado)
+                asistencia.time_out = datetime.time(timedata.hour, timedata.minute, timedata.second)
+                asistencia.save()
+            else:
+                asistencia = Asistencia(empleado=empleado)
+                asistencia.time_out = datetime.time(00, 00, 1)
+                asistencia.save()
+
+            context = {
+                'mensaje': "Registrado"
+            }
+            return render(request, 'table/asistencia.html', context)
+        except:
+            pass
+            return HttpResponse("Hubo un error en el sistema")
     

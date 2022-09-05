@@ -45,6 +45,7 @@ urlpatterns = [
     path("reportes_proveedor/", viewReportProovedor.as_view(), name="lista_reporte_proveedor"),
     path("reportes_empleado/", viewReportEmpleado.as_view(), name="lista_reporte_empleado"),
 
+    path("asistencia-view/", ListAsistenciaListView.as_view(), name="view_asistencia"),
     path("asistencia/", AsistenciaListView.as_view(), name="lista_asistencia"),
     path("registro-asistencia/", views.RegistroAsistencia.as_view(), name="registro_asistencia"),
 ]
