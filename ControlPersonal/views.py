@@ -283,5 +283,5 @@ class RegistroAsistencia(LoginRequiredMixin, generic.CreateView):
             return render(request, 'table/asistencia.html', context)
         except:
             pass
-            return HttpResponse("Hubo un error en el sistema")
+            return HttpResponse("Hubo un error")
     
