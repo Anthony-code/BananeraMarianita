@@ -208,6 +208,27 @@ class CuentaUpdateView(LoginRequiredMixin, generic.UpdateView):
         form.instance.um = self.request.user.id
         return super(CuentaUpdateView, self).form_valid(form)
 
+def finishJob(request, id):
+    template_name = 'inactivar/finishJob.html'
+    cuenta = Cuenta.objects.filter(pk=id).first()
+    context = {}
+    if not Cuenta:
+        return HttpResponse('cuenta no existe' + str(id))
+
+    if request.method == 'GET':
+        context = {
+            'cuenta': cuenta
+        }
+
+    if request.method == 'POST':  ## SE EJECUTA CUANDO SE LE DA AL BOTON DE ENVIAR
+        cuenta.estado = False
+        cuenta.save()
+        context = {
+            'cuenta': 'POSITIVO'
+        }
+        return HttpResponse('Trabajo Terminado')
+    return render(request, template_name, context)
+
 
 ##APARADO PARA LAS ACTIVIDADES
 class ActividadListView(LoginRequiredMixin,generic.ListView):
@@ -266,21 +287,21 @@ class RegistroAsistencia(LoginRequiredMixin, generic.CreateView):
             timedata = timedatas.now()
             a = request.POST['cedula']
             empleado = Persona.objects.filter(dni=a).first()
+
             if not empleado:
-                return HttpResponse("Empleado no encontrado !!!!")
+                #return HttpResponse(" !!!!")
+                return render(request, 'table/asistencia.html', {'message': "Empleado no encontrado"})
             if timedata.hour > 22:
                 asistencia = Asistencia(empleado=empleado)
                 asistencia.time_out = datetime.time(timedata.hour, timedata.minute, timedata.second)
                 asistencia.save()
+                return render(request, 'table/asistencia.html', {'message': "Empleado no encontrado"})
             else:
                 asistencia = Asistencia(empleado=empleado)
                 asistencia.time_out = datetime.time(00, 00, 1)
                 asistencia.save()
-
-            context = {
-                'mensaje': "Registrado"
-            }
-            return render(request, 'table/asistencia.html', context)
+                return render(request, 'table/asistencia.html', {'message':"Registro de asistencia correcto"})
+                #return HttpResponse("Resgistro Corecto !!!!")
         except:
             pass
             return HttpResponse("Hubo un error")

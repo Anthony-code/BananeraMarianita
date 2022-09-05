@@ -34,6 +34,7 @@ urlpatterns = [
     path("cuenta-trabajo/",CuentaListView.as_view(),name = "lista_cuenta"),
     path("cuenta-trabajo/nuevo",CuentaCreateView.as_view(),name = "nueva_cuenta"),
     path("cuenta-trabajo/editar/<int:pk>", CuentaUpdateView.as_view(),name = "editar_cuenta"),
+    path("cuenta-trabajo/ok/<int:id>",finishJob, name= "finish_job"),
 
     path("actividad/", ActividadListView.as_view(), name="lista_actividad"),
     path("actividad/nuevo", ActividadCreateView.as_view(), name="nuevo_actividad"),
