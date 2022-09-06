@@ -27,12 +27,14 @@ class Home(LoginRequiredMixin,generic.TemplateView):
     template_name = "table/home.html"
     login_url = 'ControlPersonal:login'
     def get(self, request, *args, **kwargs):
+        cuenta=Cuenta.objects.all()
         empledo = Persona.objects.all()
         egreso_producto = Producto.objects.aggregate(Sum('precio_total'))
         cantidad_producto = Producto.objects.all()
         cantidad_producto = cantidad_producto.count()
         egreso_empleado = Cuenta.objects.aggregate(Sum('precio'))
         data = {
+            'cuenta':cuenta,
             'empleado':empledo,
             'egreso_empleado':egreso_empleado['precio__sum'],
             'egreso_producto':egreso_producto['precio_total__sum'],

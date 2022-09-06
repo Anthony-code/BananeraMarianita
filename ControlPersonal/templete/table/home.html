@@ -90,7 +90,7 @@
 
     <div class="row">
         <div class="card-body">
-            {% if not object %}
+            {% if not cuenta %}
             No existe trabajos Pendientes
             {%else%}
             <table class="table table-striper table-hover">
@@ -99,29 +99,24 @@
                 <th class="text-bold">Cedula</th>
                 <th class="text-bold">Apellido</th>
                 <th class="text-bold">Nombre</th>
-                <th class="text-bold">Hora de entrada</th>
-                <th class="text-bold">Status</th>
-                <th class="text-bold">Hora de salida</th>
+                <th class="text-bold">Actividad</th>
+                <th class="text-bold">Pendientes</th>
 
                 </thead>
                 <tbody>
-                {% for asistencia in object %}
+                {% for cuent in cuenta %}
+                {% if cuent.estado %}
                 <tr>
-                    <td>{{asistencia.date}}</td>
-                    <td>{{asistencia.empleado.dni}}</td>
-                    <td>{{asistencia.empleado.apellido}}</td>
-                    <td>{{asistencia.empleado.nombre}}</td>
-                    <td>{{asistencia.time_in}}</td>
-                    <td>
-                        {% if asistencia.status %}
-                        <p>Asistio</p>
-                        {% else %}
-                        <p>Atrazo</p>
-                        {% endif %}
+                    <td>{{cuent.fecha_carga}}</td>
+                    <td>{{cuent.empleado.dni}}</td>
+                    <td>{{cuent.empleado.apellido}}</td>
+                    <td>{{cuent.empleado.nombre}}</td>
+                    <td>{{cuent.actividad}}</td>
 
-                    </td>
-                    <td>{{asistencia.time_out}}</td>
+                    <td><p>Pendiente</p></td>
+
                 </tr>
+                {% endif %}
                 {% endfor %}
                 </tbody>
             </table>

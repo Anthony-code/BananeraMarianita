@@ -49,11 +49,12 @@
             
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center"
-                href="">
+                href="{% url 'ControlPersonal:home' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
+
                     <img src="{% static 'master/img/banana.png' %}" alt="">
                 </div>
-                <div class="sidebar-brand-text mx-3">Santa Marianita <sup></sup></div>
+                <div class="sidebar-brand-text mx-3" >Santa Marianita <sup></sup></div>
             </a>
 
             <!-- Divider -->
@@ -86,7 +87,7 @@
                         <h6 class="collapse-header">Componentes</h6>
                         <a class="collapse-item" href="{% url 'ControlPersonal:lista_proovedor' %}">Proveedores</a>
                         <a class="collapse-item" href="{% url 'ControlPersonal:lista_producto' %}">Productos</a>
-                        <a class="collapse-item" href="{% url 'ControlPersonal:lista_producto_bodega' %}">Productos en bodega</a>
+<!--                        <a class="collapse-item" href="{% url 'ControlPersonal:lista_producto_bodega' %}">Productos en bodega</a>-->
                     </div>
                 </div>
             </li>
@@ -356,6 +357,7 @@
                 <div class="container-fluid">
                     <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
                 </div>
+
                 {% endblock content %}
                 <!-- /.container-fluid -->
                 {% block footer %}
