@@ -33,6 +33,7 @@ class Home(LoginRequiredMixin,generic.TemplateView):
         cantidad_producto = Producto.objects.all()
         cantidad_producto = cantidad_producto.count()
         egreso_empleado = Cuenta.objects.aggregate(Sum('precio'))
+        cuenta = Cuenta.objects.all()
         data = {
             'cuenta':cuenta,
             'empleado':empledo,
@@ -40,7 +41,7 @@ class Home(LoginRequiredMixin,generic.TemplateView):
             'egreso_producto':egreso_producto['precio_total__sum'],
             'cantidad_producto':cantidad_producto
         }
-        print(cantidad_producto)
+        print(cuenta)
         return render(request,self.template_name,data)
 
 ##APARTADO PARA REALIZAR EL C.R.U.D  de empleado
@@ -293,11 +294,11 @@ class RegistroAsistencia(LoginRequiredMixin, generic.CreateView):
             if not empleado:
                 #return HttpResponse(" !!!!")
                 return render(request, 'table/asistencia.html', {'message': "Empleado no encontrado"})
-            if timedata.hour > 22:
+            if timedata.hour > 13:
                 asistencia = Asistencia(empleado=empleado)
                 asistencia.time_out = datetime.time(timedata.hour, timedata.minute, timedata.second)
                 asistencia.save()
-                return render(request, 'table/asistencia.html', {'message': "Empleado no encontrado"})
+                return render(request, 'table/asistencia.html', {'message': "Registro de asistencia correcto"})
             else:
                 asistencia = Asistencia(empleado=empleado)
                 asistencia.time_out = datetime.time(00, 00, 1)
