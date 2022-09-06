@@ -294,7 +294,7 @@ class RegistroAsistencia(LoginRequiredMixin, generic.CreateView):
             if not empleado:
                 #return HttpResponse(" !!!!")
                 return render(request, 'table/asistencia.html', {'message': "Empleado no encontrado"})
-            if timedata.hour < 23:
+            if timedata.hour < 16:
                 asistencia = Asistencia(empleado=empleado)
                 asistencia.time_out = datetime.time(00, 00, 1)
                 asistencia.save()
